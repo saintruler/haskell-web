@@ -1,10 +1,12 @@
 module Main where
 
 import System.IO
+
 import Response
 import Request
 import Router
 import Views
+import Utils
 
 renderTemplate name = do
   template <- readTemplate name

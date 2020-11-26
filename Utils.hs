@@ -8,6 +8,8 @@ import qualified Data.Text as T
 import Data.Text.Encoding (encodeUtf8, decodeUtf8)
 import Data.Text (Text)
 
+import Http
+
 -- Query string parser
 
 decodeUrl :: Text -> Text
