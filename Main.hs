@@ -2,7 +2,9 @@ module Main where
 
 import System.IO
 import Response
+import Request
 import Router
+import Views
 
 renderTemplate name = do
   template <- readTemplate name
@@ -12,14 +14,9 @@ readTemplate name = do
   handle <- openFile ("templates/" ++ name) ReadMode
   hGetContents handle
 
-route url method
-  | url == "/"      = renderTemplate "index.html"
-  | url == "/hello" = renderTemplate "hello.html"
-
-table = [
-  Route 
-]
+table = [ Route indexGet "/" "GET"
+        , Route helloGet "/hello" "GET" ]
 
 main = do
-  response <- route "/hello" "GET"
+  response <- resolve table (Request "query" "/jopa" "GET")
   print $ getContent response

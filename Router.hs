@@ -4,6 +4,7 @@ import Control.Exception
 import Response
 import Request
 
+-- Route callback url method
 data Route = Route (Request -> IO Response) String String
 
 data RouterError = RouteNotFound
@@ -11,11 +12,9 @@ data RouterError = RouteNotFound
 
 instance Exception RouterError
 
-getResponse [] _ = throw RouteNotFound
-getResponse (Route callback routeUrl _ : routerTable) req @ (Request _ url _) =
+resolve :: [Route] -> Request -> IO Response
+resolve [] _ = return notFoundResponse
+resolve (Route callback routeUrl _ : routerTable) req @ (Request _ url _) =
   if url == routeUrl then
     callback req
-  else getResponse routerTable req
-
-router table req =
-  
+  else resolve routerTable req

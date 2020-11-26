@@ -4,6 +4,7 @@ data Response =
   HtmlResponse Int String -- Код возврата, содержимое HTML
   | TextResponse Int String String -- Код возврата, Content-Type, содержимое HTML
 
+notFoundResponse = HtmlResponse 404 "<strong>404 Not Found</strong>"
 
 getStatusCode (HtmlResponse code _) = code
 getStatusCode (TextResponse code _ _) = code

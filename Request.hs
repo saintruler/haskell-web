@@ -1,5 +1,6 @@
 module Request where
 
+-- Request query url method
 data Request = Request String String String
 
 getQuery (Request query _ _) = query
