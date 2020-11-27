@@ -19,8 +19,13 @@ executable haskell-web
     , Web.Utils
     , Views
     , Routes
+    , Settings
   -- other-extensions:
   build-depends:
-    base >=4.14 && <4.15, text, http-types, bytestring, network
+      base >=4.14 && <4.15
+    , text
+    , http-types
+    , bytestring
+    , network
   -- hs-source-dirs:
   default-language:    Haskell2010

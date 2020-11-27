@@ -16,22 +16,25 @@ import Web.Response
 import Web.Router
 import Routes
 
+import Settings (host, port)
+
 main :: IO ()
 main = do
-  print "Server launched"
-  runTCPServer Nothing "3000" talk
+  let hostStr = case host of
+                  Just smt -> smt
+                  Nothing  -> "0.0.0.0"
+
+  putStrLn $ "Server launched on " ++ hostStr ++ ":" ++ port
+  runTCPServer host port talk
   where
     talk s = do
       msg <- recv s 1024
-      -- print msg
-      print "Got request"
+      putStrLn "Got request"
       unless (S.null msg) $ do
         let (request, _, _) = parseHttp $ decodeUtf8 msg
         response <- resolve routesTable $ request
         sendAll s $ encodeUtf8 (formResponse response)
-    
 
--- from the "network-run" package.
 runTCPServer :: Maybe HostName -> ServiceName -> (Socket -> IO a) -> IO a
 runTCPServer mhost port server = withSocketsDo $ do
     addr <- resolve
