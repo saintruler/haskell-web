@@ -1,11 +1,13 @@
 module Web.Router where
 
+import Data.Text (Text)
+
 import Web.Response
 import Web.Request
 import Web.Http
 
 -- Route callback url method
-data Route = Route (Request -> IO Response) String Method
+data Route = Route (Request -> IO Response) Text Method
 
 resolve :: [Route] -> Request -> IO Response
 resolve [] _ = return notFoundResponse
