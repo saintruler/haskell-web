@@ -3,6 +3,8 @@ module Web.Response where
 import qualified Data.Text as T
 import Data.Text (Text)
 
+import Web.Utils
+
 data Response
   = HtmlResponse Int Text -- Код возврата, содержимое HTML
   | TextResponse Int Text Text -- Код возврата, Content-Type, содержимое HTML
@@ -18,3 +20,11 @@ getContentType (TextResponse _ contentType _) = contentType
 
 getContent (HtmlResponse _ content) = content
 getContent (TextResponse _ _ content) = content
+
+formResponse :: Response -> Text
+formResponse (HtmlResponse code html) = 
+  T.unlines
+  $ map T.pack [ "HTTP/1.1 " ++ getStatus code
+               , "Content-Type: text/html; charset=utf-8"
+               , "Connection: keep-alive"
+               , "" ] ++ [html]

@@ -14,4 +14,4 @@ table = [ Route indexGet (T.pack "/") GET
 
 main = do
   response <- resolve table (Request [] (T.pack "/hello") GET)
-  print $ response
+  print $ formResponse response
