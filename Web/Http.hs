@@ -1,4 +1,4 @@
-module Http where
+module Web.Http where
 
 import Data.Text (Text)
 

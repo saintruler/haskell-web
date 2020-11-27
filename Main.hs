@@ -1,11 +1,11 @@
 module Main where
 
-import Response
-import Request
-import Router
-import Views
-import Utils
-import Http
+import Web.Response
+import Web.Request
+import Web.Router
+import Web.Views
+import Web.Utils
+import Web.Http
 
 table = [ Route indexGet "/" GET
         , Route helloGet "/hello" GET ]

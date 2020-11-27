@@ -1,6 +1,6 @@
-module Request where
+module Web.Request where
 
-import Http
+import Web.Http
 
 -- Request query url method
 data Request = Request [QueryPair] String Method

@@ -1,8 +1,8 @@
-module Router where
+module Web.Router where
 
-import Response
-import Request
-import Http
+import Web.Response
+import Web.Request
+import Web.Http
 
 -- Route callback url method
 data Route = Route (Request -> IO Response) String Method

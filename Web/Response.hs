@@ -1,4 +1,4 @@
-module Response where
+module Web.Response where
 
 data Response
   = HtmlResponse Int String -- Код возврата, содержимое HTML

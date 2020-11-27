@@ -1,4 +1,4 @@
-module Utils (parseQs, parseHttp) where
+module Web.Utils (parseQs, parseHttp) where
 
 import Network.HTTP.Types.URI as URI
 import qualified Data.ByteString as S
@@ -8,7 +8,7 @@ import qualified Data.Text as T
 import Data.Text.Encoding (encodeUtf8, decodeUtf8)
 import Data.Text (Text)
 
-import Http
+import Web.Http
 
 -- Query string parser
 

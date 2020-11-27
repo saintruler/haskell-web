@@ -1,9 +1,9 @@
-module Views where
+module Web.Views where
 
 import System.IO
 
-import Request
-import Response
+import Web.Request
+import Web.Response
 
 indexGet (Request query url method) =
   return $ HtmlResponse 200 "<strong>index</strong>"
