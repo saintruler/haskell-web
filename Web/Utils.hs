@@ -9,6 +9,7 @@ import Data.Text.Encoding (encodeUtf8, decodeUtf8)
 import Data.Text (Text)
 
 import Web.Http
+import Web.Request
 
 -- Query string parser
 
@@ -44,14 +45,14 @@ parseQs url =
 rev :: [a] -> [a]
 rev = foldl (flip (:)) []
 
-getMethod :: Text -> Method
-getMethod s
+parseMethod :: Text -> Method
+parseMethod s
   | s == (T.pack "POST") = POST
   | s == (T.pack "PUT")  = PUT
   | otherwise            = GET
 
 parseFirstLine :: Text -> (Method, Text)
-parseFirstLine l = (getMethod methodT, url)
+parseFirstLine l = (parseMethod methodT, url)
   where [methodT, url, _] = T.words l
 
 parseHeader :: Text -> Header
@@ -63,7 +64,8 @@ parseHeader line =
 parseHeaders :: [Text] -> [Header]
 parseHeaders = map parseHeader
 
-parseHttp :: Text -> ((Method, Text, [QueryPair]), [Header], [Text])
+-- parseHttp :: Text -> ((Method, Text, [QueryPair]), [Header], [Text])
+parseHttp :: Text -> (Request, [Header], [Text])
 parseHttp text = 
   let
     lines = T.splitOn (T.pack "\r\n") text
@@ -80,7 +82,7 @@ parseHttp text =
     (method, url) = parseFirstLine fl
     (path, query) = parseQs url
   in 
-    ((method, path, query), parseHeaders headers, rest2)
+    ((Request query path method), parseHeaders headers, rest2)
 
 -- HTTP Status Codes
 statusCodes = 

@@ -12,9 +12,15 @@ build-type:          Simple
 executable haskell-web
   main-is:             Main.hs
   other-modules:
-    Web.Http, Web.Request, Web.Response, Web.Router, Web.Utils, Web.Views
+      Web.Http
+    , Web.Request
+    , Web.Response
+    , Web.Router
+    , Web.Utils
+    , Views
+    , Routes
   -- other-extensions:
   build-depends:
-    base >=4.14 && <4.15, text, http-types, bytestring
+    base >=4.14 && <4.15, text, http-types, bytestring, network
   -- hs-source-dirs:
   default-language:    Haskell2010

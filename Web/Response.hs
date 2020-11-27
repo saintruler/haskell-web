@@ -23,8 +23,8 @@ getContent (TextResponse _ _ content) = content
 
 formResponse :: Response -> Text
 formResponse (HtmlResponse code html) = 
-  T.unlines
+  T.strip $ T.unlines
   $ map T.pack [ "HTTP/1.1 " ++ getStatus code
                , "Content-Type: text/html; charset=utf-8"
-               , "Connection: keep-alive"
+               , "Connection: close"
                , "" ] ++ [html]

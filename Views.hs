@@ -1,4 +1,4 @@
-module Web.Views where
+module Views where
 
 import System.IO
 import qualified Data.Text as T
@@ -7,11 +7,11 @@ import Data.Text (Text)
 import Web.Request
 import Web.Response
 
-indexGet (Request query url method) =
-  return $ HtmlResponse 200 (T.pack "<strong>index</strong>")
+indexGet :: Request -> IO Response
+indexGet req = renderTemplate "index.html"
 
-helloGet req =
-  return $ HtmlResponse 200 (T.pack "<i>hello</i>")
+helloGet :: Request -> IO Response
+helloGet req = renderTemplate "hello.html"
 
 renderTemplate :: String -> IO Response
 renderTemplate name = do
