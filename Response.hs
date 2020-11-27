@@ -1,8 +1,9 @@
 module Response where
 
-data Response =
-  HtmlResponse Int String -- Код возврата, содержимое HTML
+data Response
+  = HtmlResponse Int String -- Код возврата, содержимое HTML
   | TextResponse Int String String -- Код возврата, Content-Type, содержимое HTML
+  deriving Show
 
 notFoundResponse = HtmlResponse 404 "<strong>404 Not Found</strong>"
 

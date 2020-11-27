@@ -1,5 +1,7 @@
 module Views where
 
+import System.IO
+
 import Request
 import Response
 
@@ -8,3 +10,11 @@ indexGet (Request query url method) =
 
 helloGet req =
   return $ HtmlResponse 200 "<i>hello</i>"
+
+renderTemplate name = do
+  template <- readTemplate name
+  return $ HtmlResponse 200 template
+
+readTemplate name = do
+  handle <- openFile ("templates/" ++ name) ReadMode
+  hGetContents handle

@@ -1,16 +1,11 @@
 module Router where
 
-import Control.Exception
 import Response
 import Request
+import Http
 
 -- Route callback url method
-data Route = Route (Request -> IO Response) String String
-
-data RouterError = RouteNotFound
-  deriving Show
-
-instance Exception RouterError
+data Route = Route (Request -> IO Response) String Method
 
 resolve :: [Route] -> Request -> IO Response
 resolve [] _ = return notFoundResponse

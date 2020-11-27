@@ -1,7 +1,10 @@
 module Request where
 
+import Http
+
 -- Request query url method
-data Request = Request String String String
+data Request = Request [QueryPair] String Method
+  deriving Show
 
 getQuery (Request query _ _) = query
 

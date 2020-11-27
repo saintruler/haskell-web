@@ -15,16 +15,16 @@ import Http
 decodeUrl :: Text -> Text
 decodeUrl = decodeUtf8 . URI.urlDecode True . encodeUtf8
 
-parseQs :: Text -> (Text, [(Text, Text)])
+parseQs :: Text -> (Text, [QueryPair])
 parseQs url =
   let
     decoded = decodeUrl url
     path = T.takeWhile (\c -> c /= '?') decoded
     rest = T.dropWhile (\c -> c /= '?') decoded
 
-    parsePair :: Text -> Maybe (Text, Text)
+    parsePair :: Text -> Maybe QueryPair
     parsePair s
-      | T.any ((==) '=') s = Just (a, b)
+      | T.any ((==) '=') s = Just (QueryPair a b)
       | otherwise = Nothing
       where a : b : _ = T.splitOn (T.pack "=") s
     
@@ -44,20 +44,26 @@ parseQs url =
 rev :: [a] -> [a]
 rev = foldl (flip (:)) []
 
-parseFirstLine :: Text -> (Text, Text)
-parseFirstLine l = (method, url)
-  where [method, url, _] = T.words l
+getMethod :: Text -> Method
+getMethod s
+  | s == (T.pack "POST") = POST
+  | s == (T.pack "PUT")  = PUT
+  | otherwise            = GET
 
-parseHeader :: Text -> (Text, Text)
+parseFirstLine :: Text -> (Method, Text)
+parseFirstLine l = (getMethod methodT, url)
+  where [methodT, url, _] = T.words l
+
+parseHeader :: Text -> Header
 parseHeader line = 
-  (T.takeWhile p line, T.strip $ T.tail
-   $ T.dropWhile p line)
+  Header (T.takeWhile p line)
+         (T.strip $ T.tail $ T.dropWhile p line)
     where p = (\c -> c /= ':')
 
-parseHeaders :: [Text] -> [(Text, Text)]
+parseHeaders :: [Text] -> [Header]
 parseHeaders = map parseHeader
 
-parseHttp :: Text -> ((Text, Text, [(Text, Text)]), [(Text, Text)], [Text])
+parseHttp :: Text -> ((Method, Text, [QueryPair]), [Header], [Text])
 parseHttp text = 
   let
     lines = T.splitOn (T.pack "\r\n") text
